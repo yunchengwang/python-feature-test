@@ -29,7 +29,7 @@ Will be supported soon.
 
 ## Multi-label Classification
 
-Multi-label classification can be formulated `n_class` independent
+Multi-label classification can be formulated as `n_class` independent
 binary classification. Consider using BCE loss to select features
 for the multi-label classification problems.
 
