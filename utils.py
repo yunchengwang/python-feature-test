@@ -5,7 +5,7 @@ from sklearn.linear_model import LogisticRegression, LinearRegression
 
 class FeatureTest:
     def __init__(self, loss='bce'):
-        assert loss in ['bce', 'ce', 'mse'], f'loss not defined. Please select from ["bce", "ce", "mse"].'
+        assert loss in ['bce', 'ce', 'rmse'], f'loss not defined. Please select from ["bce", "ce", "rmse"].'
         self.loss = loss
         self.dim_loss = dict()
         self.sorted_features = None
@@ -21,7 +21,7 @@ class FeatureTest:
         self.sorted_features = np.array(list(self.dim_loss.keys()))
 
     def transform(self, X, n_selected):
-        assert self.sorted_features, f'Run fit() before selecting features.'
+        assert self.sorted_features is not None, f'Run fit() before selecting features.'
         assert X.shape[1] == self.dim, f'Expect feature dimension {self.dim}, but got {X.shape[1]}.'
         return X[:, self.sorted_features[np.arange(n_selected)]]
 
@@ -58,8 +58,8 @@ class FeatureTest:
                 rh = np.sum(-y_r * np.log2(rp) - (1 - y_r) * np.log2(1 - rp))
             return (lh + rh) / (n1 + n2)
         elif self.loss == 'ce':
-            pass
-        elif self.loss == 'mse':
+            return 0
+        elif self.loss == 'rmse':
             left_mse = ((y_l - y_l.mean()) ** 2).sum()
             right_mse = ((y_r - y_r.mean()) ** 2).sum()
             return np.sqrt((left_mse + right_mse) / (n1 + n2))
