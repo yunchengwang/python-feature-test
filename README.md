@@ -18,7 +18,7 @@ Implementation of the loss function follows the equation
 ## Regression
 
 Adopt the root mean-squared-error (RMSE) as the loss function for
-feature selection. Consider turn on `outliers` in `fit()` if there
+feature selection. Consider turning on `outliers` in `fit()` if there
 are some anomalies in the datasets.
 Implementation of the loss function follows the equation 
 [here](https://pytorch.org/docs/stable/generated/torch.nn.MSELoss.html).
