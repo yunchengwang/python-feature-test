@@ -5,7 +5,7 @@ from sklearn.linear_model import LogisticRegression, LinearRegression
 
 class FeatureTest:
     def __init__(self, loss='bce'):
-        assert loss in ['bce', 'ce', 'rmse'], f'loss not defined. Please select from ["bce", "ce", "rmse"].'
+        assert loss in ['bce', 'ce', 'rmse'], f'loss not supported. Please select from ["bce", "ce", "rmse"].'
         self.loss = loss
         self.dim_loss = dict()
         self.sorted_features = None
