@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.preprocessing import LabelBinarizer
 
 
 class FeatureTest:
@@ -58,7 +59,15 @@ class FeatureTest:
                 rh = np.sum(-y_r * np.log2(rp) - (1 - y_r) * np.log2(1 - rp))
             return (lh + rh) / (n1 + n2)
         elif self.loss == 'ce':
-            return 0
+            llb = MyLabelBinarizer()
+            y_l = llb.fit_transform(y_l)
+            lp = y_l.mean(axis=0)
+            lh = np.sum(-y_l * np.log2(lp))
+            rlb = MyLabelBinarizer()
+            y_r = rlb.fit_transform(y_r)
+            rp = y_r.mean(axis=0)
+            rh = np.sum(-y_r * np.log2(rp))
+            return (lh + rh) / (n1 + n2)
         elif self.loss == 'rmse':
             left_mse = ((y_l - y_l.mean()) ** 2).sum()
             right_mse = ((y_r - y_r.mean()) ** 2).sum()
@@ -66,8 +75,26 @@ class FeatureTest:
         else:
             pass
 
+    def multiclass_classification_loss(self, y_l, y_r):
+        '''cross-entropy loss'''
+        n1, n2 = len(y_l), len(y_r)
+        lp = y_l.mean()
+        if lp == 1 or lp == 0:
+            lh = 0.0
+
     @staticmethod
     def remove_outliers(f_1d, y, n_std=2.0):
         """Remove outliers for the regression problem."""
         f_mean, f_std = f_1d.mean(), f_1d.std()
         return f_1d[np.abs(f_1d - f_mean) <= n_std * f_std], y[np.abs(f_1d - f_mean) <= n_std * f_std]
+
+
+class MyLabelBinarizer(LabelBinarizer):
+    def transform(self, y):
+        Y = super().transform(y)
+        if len(self.classes_) == 1:
+            return 1 - Y
+        elif len(self.classes_) == 2:
+            return np.hstack((Y, 1-Y))
+        else:
+            return Y

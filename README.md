@@ -6,7 +6,6 @@ and Relevant Feature Test (RFT) in sklearn style.
 ## Requirements
 
     numpy==1.21.5
-    matplotlib==3.5.1
     scikit-learn==1.0.1
 
 ## Binary Classification
@@ -14,6 +13,8 @@ and Relevant Feature Test (RFT) in sklearn style.
 Adopt the binary cross-entropy (BCE) loss for feature selection.
 Implementation of the loss function follows the equation 
 [here](https://pytorch.org/docs/stable/generated/torch.nn.BCELoss.html).
+
+    dft = FeatureTest(loss='bce')
 
 ## Regression
 
@@ -23,9 +24,14 @@ are some anomalies in the datasets.
 Implementation of the loss function follows the equation 
 [here](https://pytorch.org/docs/stable/generated/torch.nn.MSELoss.html).
 
+    rft = FeatureTest(loss='rmse')
+
 ## Multi-class Classification
 
-Will be supported soon.
+Use the cross-entropy (CE) loss for multi-class classification `(n_class > 2)` 
+problems.
+
+    dft = FeatureTest(loss='ce')
 
 ## Multi-label Classification
 
