@@ -75,13 +75,6 @@ class FeatureTest:
         else:
             pass
 
-    def multiclass_classification_loss(self, y_l, y_r):
-        '''cross-entropy loss'''
-        n1, n2 = len(y_l), len(y_r)
-        lp = y_l.mean()
-        if lp == 1 or lp == 0:
-            lh = 0.0
-
     @staticmethod
     def remove_outliers(f_1d, y, n_std=2.0):
         """Remove outliers for the regression problem."""
